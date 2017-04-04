@@ -101,18 +101,17 @@ describe('CompleteMe trie tests', () => {
 
     completion.insert('cherry');
     completion.insert('vanilla');
-    completion.insert('vane');
     completion.insert('caramel');
     completion.insert('pie');
     completion.insert('cake');
 
     let secondSuggestion = completion.suggest('van')
 
-    assert.deepEqual(secondSuggestion, ['vanilla', 'vane'])
+    assert.deepEqual(secondSuggestion, ['vanilla'])
 
     let suggestion = completion.suggest('c');
 
-    assert.deepEqual(suggestion, ['cake', 'caramel', 'cherry'])
+    assert.deepEqual(suggestion, ['cherry', 'caramel', 'cake'])
 
   })
 
