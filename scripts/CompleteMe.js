@@ -9,10 +9,10 @@ export default class CompleteMe {
   insert (word) {
     let letterArray = word.split('');
     let currentNode = this.root;
-    let addressSoFar = '';
+    // let addressSoFar = '';
 
     letterArray.forEach( letter => {
-      addressSoFar += letter;
+      // addressSoFar += letter;
 
       if (currentNode.children[letter]) {
         currentNode = currentNode.children[letter];
@@ -21,7 +21,6 @@ export default class CompleteMe {
       currentNode.children[letter] = new DataNode(letter);
 
       currentNode = currentNode.children[letter];
-      currentNode.address = addressSoFar;
     })
 
     currentNode.isWord = true;
@@ -32,34 +31,38 @@ export default class CompleteMe {
     return this.counter;
   }
 
-  findByAddress (searchterm) {
-    let searchLettersArray = searchterm.split('');
-    let currentNode = this.root;
+  getWord (currentNode, wordSoFar, suggestions) {
+    if (currentNode.isWord) {
+      suggestions.push(wordSoFar)
+    }
 
-    searchLettersArray.forEach ( letter => {
-      if (!currentNode.children[letter]) {
-        return 'No node exists with that address';
-      }
-      currentNode = currentNode.children[letter];
-    })
-
-    return currentNode;
-  }
-
-  suggest (prefix) {
-    let suggestions = [];
-    let currentNode = this.findByAddress(prefix);
     let nodeChildrenKeys = Object.keys(currentNode.children);
 
     nodeChildrenKeys.forEach((key) => {
-      if (currentNode.children[key].isWord) {
-        suggestions.push(currentNode.children[key].address)
-      }
-      let returnedArray = this.suggest(currentNode.children[key].address)
+      let nextNode = currentNode.children[key];
 
-      suggestions.push(...returnedArray);
+      this.getWord(nextNode, wordSoFar + key, suggestions)
     })
+
     return suggestions;
+  }
+
+  suggest (wordSoFar) {
+    let wordSoFarLetterArray = wordSoFar.split('');
+    let currentNode = this.root;
+    let suggestions = [];
+
+    wordSoFarLetterArray.forEach(letter => {
+
+      if (currentNode.children[letter]) {
+        currentNode = currentNode.children[letter];
+        return;
+      }
+
+      currentNode = currentNode.children[letter];
+    })
+
+    return suggestions = this.getWord(currentNode, wordSoFar, suggestions);
   }
 
 }

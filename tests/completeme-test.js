@@ -74,29 +74,7 @@ describe('CompleteMe trie tests', () => {
     assert.deepEqual(completion.root.children.p.children.i.children.e.children.s.isWord, true)
   })
 
-  it('should create a unique address for each node', () => {
-    before();
-
-    completion.insert('yum');
-
-    assert.deepEqual(completion.root.children.y.address, 'y');
-    assert.deepEqual(completion.root.children.y.children.u.address, 'yu');
-    assert.deepEqual(completion.root.children.y.children.u.children.m.address, 'yum');
-  })
-
-  it('should find a node by its address', () => {
-    before();
-
-    completion.insert('cherry');
-
-    let cher = completion.findByAddress('cher');
-    let cherr = completion.findByAddress('cherr');
-
-    assert.equal(cher.address, 'cher')
-    assert.equal(cherr.address, 'cherr')
-  })
-
-  it('should suggest a new word', () => {
+  it('should suggest a complete word', () => {
     before();
 
     completion.insert('cherry');
@@ -105,14 +83,22 @@ describe('CompleteMe trie tests', () => {
     completion.insert('pie');
     completion.insert('cake');
 
-    let secondSuggestion = completion.suggest('van')
+    let suggestion = completion.suggest('van')
 
-    assert.deepEqual(secondSuggestion, ['vanilla'])
+    assert.deepEqual(suggestion, ['vanilla'])
+  })
+
+  it('should suggest a complete word', () => {
+    before();
+
+    completion.insert('cherry');
+    completion.insert('vanilla');
+    completion.insert('caramel');
+    completion.insert('pie');
+    completion.insert('cake');
 
     let suggestion = completion.suggest('c');
 
     assert.deepEqual(suggestion, ['cherry', 'caramel', 'cake'])
-
   })
-
 })
