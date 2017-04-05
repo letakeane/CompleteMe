@@ -3,5 +3,6 @@ export default class DataNode {
     this.data = data;
     this.children = {};
     this.isWord = false;
+    this.timesSelected = 0;
   }
 }

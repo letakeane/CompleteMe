@@ -9,10 +9,8 @@ export default class CompleteMe {
   insert (word) {
     let letterArray = word.split('');
     let currentNode = this.root;
-    // let addressSoFar = '';
 
     letterArray.forEach( letter => {
-      // addressSoFar += letter;
 
       if (currentNode.children[letter]) {
         currentNode = currentNode.children[letter];
@@ -33,7 +31,10 @@ export default class CompleteMe {
 
   getWord (currentNode, wordSoFar, suggestions) {
     if (currentNode.isWord) {
-      suggestions.push(wordSoFar)
+      suggestions.push({
+        word: wordSoFar,
+        timesSelected: currentNode.timesSelected
+      })
     }
 
     let nodeChildrenKeys = Object.keys(currentNode.children);
@@ -58,11 +59,39 @@ export default class CompleteMe {
         currentNode = currentNode.children[letter];
         return;
       }
-
-      currentNode = currentNode.children[letter];
     })
 
-    return suggestions = this.getWord(currentNode, wordSoFar, suggestions);
+    suggestions = this.getWord(currentNode, wordSoFar, suggestions);
+
+    suggestions.sort( (a, b) => {
+      return b.timesSelected - a.timesSelected;
+    })
+
+    suggestions = suggestions.map( object => {
+      return object.word;
+    })
+
+    return suggestions;
+  }
+
+  populate (dictionary) {
+    dictionary.forEach(word => {
+      this.insert(word);
+    })
+  }
+
+  select (word) {
+    let wordLetterArray = word.split('');
+    let currentNode = this.root;
+
+    wordLetterArray.forEach(letter => {
+      if (currentNode.children[letter]) {
+        currentNode = currentNode.children[letter];
+        return;
+      }
+    })
+
+    currentNode.timesSelected++;
   }
 
 }
