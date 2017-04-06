@@ -891,7 +891,7 @@ submitButton.addEventListener('click', () => {
     let h2Text = document.createTextNode(letter);
     let h2Att = document.createAttribute('class');
     let wordBankNode = document.createElement('DIV');
-    let wordBankAtt = document.createAttribute('class');
+    let wordBankAtt = document.createAttribute('id');
 
     h2Att.value = letter + 'header';
     h2Node.setAttributeNode(h2Att);
@@ -922,9 +922,15 @@ submitButton.addEventListener('click', () => {
 pickWordsArea.addEventListener('click', (event) => {
   let thisButton = event.target;
   let thisButtonText = event.target.textContent;
+  let thisId = thisButtonText[0];
+  let buttonArray = document.getElementById(thisId).querySelectorAll('button');
 
   completion.select(thisButtonText);
   thisButton.classList.toggle('clicked');
+
+  for (let i = 0; i < buttonArray.length; i++) {
+    buttonArray[i].disabled = true;
+  }
 })
 
 makePoemButton.addEventListener('click', () => {
