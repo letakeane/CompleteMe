@@ -955,7 +955,7 @@ userAdjectiveField.addEventListener('keyup', () => {
 })
 
 submitAdjectiveButton.addEventListener('click', () => {
-  let userAdjective = userAdjectiveField.value;
+  let userAdjective = userAdjectiveField.value.toLowerCase();
 
   userAdjectiveField.value = '';
   submitAdjectiveButton.disabled = true;
