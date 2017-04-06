@@ -1250,8 +1250,9 @@ var submitButton = document.querySelector('.submit-user-input');
 var makePoemButton = document.querySelector('.make-poem');
 var pickWordsArea = document.querySelector('.pick-words');
 var completedPoemArea = document.querySelector('.completed-poem');
-
-
+var userAdjectiveField = document.querySelector('.user-adjective');
+var submitAdjectiveButton = document.querySelector('.submit-user-adjective');
+var addArea = document.querySelector('.add');
 
 userInputField.addEventListener('keyup', () => {
   submitButton.disabled = false;
@@ -1270,6 +1271,7 @@ submitButton.addEventListener('click', () => {
   submitButton.disabled = true;
   pickWordsArea.classList.remove('hidden');
   makePoemButton.classList.remove('hidden');
+  addArea.classList.remove('hidden');
 
   instructionsNode.appendChild(instructionsText);
   pickWordsArea.appendChild(instructionsNode);
@@ -1319,6 +1321,7 @@ makePoemButton.addEventListener('click', () => {
   completedPoemArea.classList.remove('hidden');
   pickWordsArea.classList.add('hidden');
   makePoemButton.classList.add('hidden');
+  addArea.classList.add('hidden');
 
   let clickedArray = document.getElementsByClassName('clicked');
 
@@ -1329,5 +1332,16 @@ makePoemButton.addEventListener('click', () => {
     wordNode.appendChild(wordText);
     completedPoemArea.appendChild(wordNode);
   }
+})
 
+userAdjectiveField.addEventListener('keyup', () => {
+  submitAdjectiveButton.disabled = false;
+})
+
+submitAdjectiveButton.addEventListener('click', () => {
+  let userAdjective = userAdjectiveField.value;
+
+  userAdjectiveField.value = '';
+  submitAdjectiveButton.disabled = true;
+  completion.insert(userAdjective);
 })
